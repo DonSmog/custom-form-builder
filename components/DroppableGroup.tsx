@@ -125,7 +125,7 @@ export function DroppableGroup({
 
   const ref = useRef<HTMLDivElement>(null);
   drag(drop(ref));
-  
+
   return (
     <Card
       ref={ref}
