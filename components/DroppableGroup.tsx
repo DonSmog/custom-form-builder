@@ -68,6 +68,30 @@ export function DroppableGroup({
     }),
   })
 
+  // Get layout styles with fallback
+  const getLayoutStyles = (layout: FormGroup["layout"]) => {
+    switch (layout) {
+      case "two-column":
+        return {
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          gap: "1rem",
+        }
+      case "three-column":
+        return {
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gap: "1rem",
+        }
+      default:
+        return {
+          display: "flex",
+          flexDirection: "column" as const,
+          gap: "1rem",
+        }
+    }
+  }
+
   return (
     <Card
       ref={(node) => drag(drop(node))}
@@ -119,7 +143,9 @@ export function DroppableGroup({
             <p className="text-xs">Drag elements from the sidebar or select this group to add elements</p>
           </div>
         ) : (
-          <div className={getLayoutClasses(group.layout)}>{children}</div>
+          <div className={getLayoutClasses(group.layout)} style={getLayoutStyles(group.layout)}>
+            {children}
+          </div>
         )}
       </CardContent>
     </Card>

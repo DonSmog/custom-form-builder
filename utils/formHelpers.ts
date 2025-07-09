@@ -25,9 +25,9 @@ export const getSelectedSection = (form: Form, selectedSection: string | null) =
 export const getLayoutClasses = (layout: FormGroup["layout"]) => {
   switch (layout) {
     case "two-column":
-      return "grid grid-cols-1 md:grid-cols-2 gap-4"
+      return "grid grid-cols-1 sm:grid-cols-2 gap-4"
     case "three-column":
-      return "grid grid-cols-1 md:grid-cols-3 gap-4"
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
     default:
       return "space-y-4"
   }
