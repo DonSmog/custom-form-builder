@@ -20,6 +20,28 @@ export const layoutOptions = [
   { value: "three-column", label: "Three Columns" },
 ]
 
+export const alignmentOptions = [
+  { value: "left", label: "Left" },
+  { value: "center", label: "Center" },
+  { value: "right", label: "Right" },
+]
+
+export const alignItemsOptions = [
+  { value: "start", label: "Start" },
+  { value: "center", label: "Center" },
+  { value: "end", label: "End" },
+  { value: "stretch", label: "Stretch" },
+]
+
+export const justifyContentOptions = [
+  { value: "start", label: "Start" },
+  { value: "center", label: "Center" },
+  { value: "end", label: "End" },
+  { value: "between", label: "Space Between" },
+  { value: "around", label: "Space Around" },
+  { value: "evenly", label: "Space Evenly" },
+]
+
 export const fileAcceptOptions = [
   { value: "all", label: "All Files" },
   { value: "image/*", label: "Images Only" },

@@ -12,6 +12,9 @@ import type { Form, FormElement, FormGroup, FormSection } from "../types/form"
 import {
   elementTypes,
   layoutOptions,
+  alignmentOptions,
+  alignItemsOptions,
+  justifyContentOptions,
   fileAcceptOptions,
   fontSizeOptions,
   fontWeightOptions,
@@ -243,6 +246,72 @@ export function FormBuilderSidebar({
                   placeholder="Add a description for this section..."
                 />
               </div>
+              <div>
+                <Label htmlFor="section-alignment">Text Alignment</Label>
+                <Select
+                  value={selectedSectionData.alignment || "left"}
+                  onValueChange={(value) =>
+                    updateSection(selectedSection!, {
+                      alignment: value as FormSection["alignment"],
+                    })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {alignmentOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="section-align-items">Align Items</Label>
+                <Select
+                  value={selectedSectionData.alignItems || "start"}
+                  onValueChange={(value) =>
+                    updateSection(selectedSection!, {
+                      alignItems: value as FormSection["alignItems"],
+                    })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {alignItemsOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="section-justify-content">Justify Content</Label>
+                <Select
+                  value={selectedSectionData.justifyContent || "start"}
+                  onValueChange={(value) =>
+                    updateSection(selectedSection!, {
+                      justifyContent: value as FormSection["justifyContent"],
+                    })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {justifyContentOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
         )}
@@ -289,6 +358,72 @@ export function FormBuilderSidebar({
                   </SelectTrigger>
                   <SelectContent>
                     {layoutOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="group-alignment">Text Alignment</Label>
+                <Select
+                  value={selectedGroupData.group.alignment || "left"}
+                  onValueChange={(value) =>
+                    updateGroup(selectedGroup!, selectedGroupData.sectionId, {
+                      alignment: value as FormGroup["alignment"],
+                    })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {alignmentOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="group-align-items">Align Items</Label>
+                <Select
+                  value={selectedGroupData.group.alignItems || "start"}
+                  onValueChange={(value) =>
+                    updateGroup(selectedGroup!, selectedGroupData.sectionId, {
+                      alignItems: value as FormGroup["alignItems"],
+                    })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {alignItemsOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="group-justify-content">Justify Content</Label>
+                <Select
+                  value={selectedGroupData.group.justifyContent || "start"}
+                  onValueChange={(value) =>
+                    updateGroup(selectedGroup!, selectedGroupData.sectionId, {
+                      justifyContent: value as FormGroup["justifyContent"],
+                    })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {justifyContentOptions.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
                       </SelectItem>

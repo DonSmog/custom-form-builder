@@ -8,7 +8,13 @@ import { Badge } from "@/components/ui/badge"
 import { GripVertical, Trash2, Users, Plus } from "lucide-react"
 import type { DragDropMonitor } from "react-dnd"
 import type { FormGroup } from "../types/form"
-import { ItemTypes, layoutOptions } from "../constants/formElements"
+import {
+  ItemTypes,
+  layoutOptions,
+  alignmentOptions,
+  alignItemsOptions,
+  justifyContentOptions,
+} from "../constants/formElements"
 
 interface DroppableGroupProps {
   group: FormGroup
@@ -68,20 +74,58 @@ export function DroppableGroup({
     }),
   })
 
-  // Get layout styles with fallback
+  // Get flexbox classes for align items
+  const getAlignItemsClasses = (alignItems: FormGroup["alignItems"]) => {
+    switch (alignItems) {
+      case "center":
+        return "items-center"
+      case "end":
+        return "items-end"
+      case "stretch":
+        return "items-stretch"
+      default:
+        return "items-start"
+    }
+  }
+
+  // Get flexbox classes for justify content
+  const getJustifyContentClasses = (justifyContent: FormGroup["justifyContent"]) => {
+    switch (justifyContent) {
+      case "center":
+        return "justify-center"
+      case "end":
+        return "justify-end"
+      case "between":
+        return "justify-between"
+      case "around":
+        return "justify-around"
+      case "evenly":
+        return "justify-evenly"
+      default:
+        return "justify-start"
+    }
+  }
+
+  // Get layout styles with fallback and flexbox support
   const getLayoutStyles = (layout: FormGroup["layout"]) => {
+    const baseFlexClasses = `${getAlignItemsClasses(group.alignItems)} ${getJustifyContentClasses(group.justifyContent)}`
+
     switch (layout) {
       case "two-column":
         return {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
           gap: "1rem",
+          alignItems: group.alignItems || "start",
+          justifyContent: group.justifyContent || "start",
         }
       case "three-column":
         return {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gap: "1rem",
+          alignItems: group.alignItems || "start",
+          justifyContent: group.justifyContent || "start",
         }
       default:
         return {
@@ -91,6 +135,24 @@ export function DroppableGroup({
         }
     }
   }
+
+  // Get alignment classes
+  const getAlignmentClasses = (alignment: FormGroup["alignment"]) => {
+    switch (alignment) {
+      case "center":
+        return "text-center"
+      case "right":
+        return "text-right"
+      default:
+        return "text-left"
+    }
+  }
+
+  const layoutStyle = getLayoutStyles(group.layout)
+  const flexClasses =
+    group.layout === "single"
+      ? `${getAlignItemsClasses(group.alignItems)} ${getJustifyContentClasses(group.justifyContent)}`
+      : ""
 
   return (
     <Card
@@ -109,18 +171,33 @@ export function DroppableGroup({
         <div className="flex items-center justify-between">
           <div className="flex-1 flex items-center">
             <GripVertical className="w-4 h-4 mr-2 text-gray-400 cursor-grab" />
-            <div className="flex-1">
-              <CardTitle className="text-md flex items-center">
+            <div className={`flex-1 ${getAlignmentClasses(group.alignment)}`}>
+              <CardTitle className="text-md flex items-center justify-start">
                 <Users className="w-4 h-4 mr-2" />
                 {group.title}
               </CardTitle>
               {group.description && <p className="text-xs text-gray-500 mt-1">{group.description}</p>}
             </div>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-1 flex-wrap">
             <Badge variant="outline" className="text-xs">
               {layoutOptions.find((l) => l.value === group.layout)?.label}
             </Badge>
+            {group.alignment && group.alignment !== "left" && (
+              <Badge variant="outline" className="text-xs">
+                {alignmentOptions.find((a) => a.value === group.alignment)?.label}
+              </Badge>
+            )}
+            {group.alignItems && group.alignItems !== "start" && (
+              <Badge variant="outline" className="text-xs">
+                AI: {alignItemsOptions.find((a) => a.value === group.alignItems)?.label}
+              </Badge>
+            )}
+            {group.justifyContent && group.justifyContent !== "start" && (
+              <Badge variant="outline" className="text-xs">
+                JC: {justifyContentOptions.find((j) => j.value === group.justifyContent)?.label}
+              </Badge>
+            )}
             <Button
               size="sm"
               variant="ghost"
@@ -135,7 +212,7 @@ export function DroppableGroup({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="pt-0">
+      <CardContent className={`pt-0 ${getAlignmentClasses(group.alignment)}`}>
         {group.elements.length === 0 ? (
           <div className="text-center py-6 text-gray-500 border-2 border-dashed border-gray-200 rounded-lg">
             <Plus className="w-6 h-6 mx-auto mb-2 text-gray-300" />
@@ -143,7 +220,7 @@ export function DroppableGroup({
             <p className="text-xs">Drag elements from the sidebar or select this group to add elements</p>
           </div>
         ) : (
-          <div className={getLayoutClasses(group.layout)} style={getLayoutStyles(group.layout)}>
+          <div className={`${getLayoutClasses(group.layout)} ${flexClasses}`} style={layoutStyle}>
             {children}
           </div>
         )}

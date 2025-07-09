@@ -36,6 +36,9 @@ export interface FormGroup {
   title: string
   description?: string
   layout: "single" | "two-column" | "three-column"
+  alignment?: "left" | "center" | "right"
+  alignItems?: "start" | "center" | "end" | "stretch"
+  justifyContent?: "start" | "center" | "end" | "between" | "around" | "evenly"
   elements: FormElement[]
 }
 
@@ -43,6 +46,9 @@ export interface FormSection {
   id: string
   title: string
   description?: string
+  alignment?: "left" | "center" | "right"
+  alignItems?: "start" | "center" | "end" | "stretch"
+  justifyContent?: "start" | "center" | "end" | "between" | "around" | "evenly"
   groups: FormGroup[]
 }
 
