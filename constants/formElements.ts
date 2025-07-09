@@ -51,6 +51,11 @@ export const fontWeightOptions = [
   { value: "extrabold", label: "Extra Bold (800)" },
 ]
 
+export const displayLayoutOptions = [
+  { value: "vertical", label: "Vertical" },
+  { value: "horizontal", label: "Horizontal" },
+]
+
 export const ItemTypes = {
   ELEMENT_TYPE: "element-type",
   ELEMENT: "element",

@@ -26,6 +26,9 @@ export interface FormElement {
     fontWeight?: "normal" | "medium" | "semibold" | "bold" | "extrabold"
     content?: string
   }
+  displayConfig?: {
+    layout?: "vertical" | "horizontal"
+  }
 }
 
 export interface FormGroup {

@@ -15,6 +15,7 @@ import {
   fileAcceptOptions,
   fontSizeOptions,
   fontWeightOptions,
+  displayLayoutOptions,
 } from "../constants/formElements"
 import { DraggableElementType } from "./DraggableElementType"
 
@@ -345,6 +346,35 @@ export function FormBuilderSidebar({
                 <Label htmlFor="element-required">Required field</Label>
               </div>
 
+              {/* Display Layout Configuration for Checkbox and Radio */}
+              {(selectedElementData.element.type === "checkbox" || selectedElementData.element.type === "radio") && (
+                <div>
+                  <Label htmlFor="display-layout">Display Layout</Label>
+                  <Select
+                    value={selectedElementData.element.displayConfig?.layout || "vertical"}
+                    onValueChange={(value) =>
+                      updateElement(selectedElement!, selectedElementData.groupId, selectedElementData.sectionId, {
+                        displayConfig: {
+                          ...selectedElementData.element.displayConfig,
+                          layout: value as FormElement["displayConfig"]["layout"],
+                        },
+                      })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select display layout" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {displayLayoutOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
               {/* File Upload Configuration */}
               {selectedElementData.element.type === "file" && (
                 <div className="space-y-4">
@@ -482,7 +512,10 @@ export function FormBuilderSidebar({
                 </div>
               )}
 
-              {(selectedElementData.element.type === "select" || selectedElementData.element.type === "radio") && (
+              {/* Options Configuration for Select, Radio, and Checkbox */}
+              {(selectedElementData.element.type === "select" ||
+                selectedElementData.element.type === "radio" ||
+                selectedElementData.element.type === "checkbox") && (
                 <div>
                   <Label>Options</Label>
                   <div className="space-y-2">
@@ -540,6 +573,13 @@ export function FormBuilderSidebar({
                       Add Option
                     </Button>
                   </div>
+
+                  {/* Show helper text for checkbox options */}
+                  {selectedElementData.element.type === "checkbox" && (
+                    <p className="text-xs text-gray-500 mt-2">
+                      Leave options empty for a single checkbox, or add options for multiple checkboxes
+                    </p>
+                  )}
                 </div>
               )}
             </div>

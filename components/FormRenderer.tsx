@@ -96,16 +96,35 @@ export function FormRenderer({ element, isPreview = false }: FormRendererProps) 
         )
 
       case "checkbox":
-        return (
-          <div className="flex items-center space-x-2">
-            <Checkbox id={element.id} />
-            <Label htmlFor={element.id}>{element.label}</Label>
-          </div>
-        )
+        const checkboxLayout = element.displayConfig?.layout || "vertical"
+
+        // If checkbox has options, render multiple checkboxes
+        if (element.options && element.options.length > 0) {
+          return (
+            <div className={checkboxLayout === "horizontal" ? "flex flex-wrap gap-4" : "space-y-2"}>
+              {element.options.map((option, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <Checkbox id={`${element.id}-${index}`} />
+                  <Label htmlFor={`${element.id}-${index}`}>{option}</Label>
+                </div>
+              ))}
+            </div>
+          )
+        } else {
+          // Single checkbox (original behavior)
+          return (
+            <div className="flex items-center space-x-2">
+              <Checkbox id={element.id} />
+              <Label htmlFor={element.id}>{element.label}</Label>
+            </div>
+          )
+        }
 
       case "radio":
+        const radioLayout = element.displayConfig?.layout || "vertical"
+
         return (
-          <RadioGroup>
+          <RadioGroup className={radioLayout === "horizontal" ? "flex flex-wrap gap-4" : "space-y-2"}>
             {element.options?.map((option, index) => (
               <div key={index} className="flex items-center space-x-2">
                 <RadioGroupItem value={option.toLowerCase().replace(/\s+/g, "-")} id={`${element.id}-${index}`} />

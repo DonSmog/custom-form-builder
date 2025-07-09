@@ -26,7 +26,7 @@ export function useFormElements(
                 ? ""
                 : "Enter value...",
         required: false,
-        options: ["select", "radio"].includes(type) ? ["Option 1", "Option 2"] : undefined,
+        options: ["select", "radio", "checkbox"].includes(type) ? ["Option 1", "Option 2"] : undefined,
         fileConfig:
           type === "file"
             ? {
@@ -43,6 +43,11 @@ export function useFormElements(
                 content: "Your text content here",
               }
             : undefined,
+        displayConfig: ["checkbox", "radio"].includes(type)
+          ? {
+              layout: "vertical",
+            }
+          : undefined,
       }
 
       const newForm = {
