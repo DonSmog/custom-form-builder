@@ -103,7 +103,7 @@ export function DraggableElement({
 
       {/* Element Preview */}
       <div className="space-y-2">
-        {element.type !== "checkbox" && (
+        {element.type !== "checkbox" && element.type !== "textfield" && (
           <Label htmlFor={element.id} className="text-sm">
             {element.label}
             {element.required && <span className="text-red-500 ml-1">*</span>}

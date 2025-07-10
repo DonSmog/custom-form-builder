@@ -516,25 +516,28 @@ export function FormBuilderSidebar({
           <div>
             <h3 className="text-md font-semibold mb-3">Element Settings</h3>
             <div className="space-y-4">
-              <div>
-                <Label htmlFor="element-label">Label</Label>
-                <Input
-                  id="element-label"
-                  value={selectedElementData.element.label}
-                  onChange={(e) =>
-                    updateElement(
-                      selectedElement!,
-                      selectedElementData.groupId,
-                      selectedElementData.sectionId,
-                      {
-                        label: e.target.value,
-                      }
-                    )
-                  }
-                />
-              </div>
+              {selectedElementData.element.type !== "textfield" && (
+                <div>
+                  <Label htmlFor="element-label">Label</Label>
+                  <Input
+                    id="element-label"
+                    value={selectedElementData.element.label}
+                    onChange={(e) =>
+                      updateElement(
+                        selectedElement!,
+                        selectedElementData.groupId,
+                        selectedElementData.sectionId,
+                        {
+                          label: e.target.value,
+                        }
+                      )
+                    }
+                  />
+                </div>
+              )}
 
               {selectedElementData.element.type !== "checkbox" &&
+                selectedElementData.element.type !== "textfield" &&
                 selectedElementData.element.type !== "file" && (
                   <div>
                     <Label htmlFor="element-placeholder">Placeholder</Label>
@@ -555,23 +558,25 @@ export function FormBuilderSidebar({
                   </div>
                 )}
 
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="element-required"
-                  checked={selectedElementData.element.required}
-                  onCheckedChange={(checked) =>
-                    updateElement(
-                      selectedElement!,
-                      selectedElementData.groupId,
-                      selectedElementData.sectionId,
-                      {
-                        required: checked,
-                      }
-                    )
-                  }
-                />
-                <Label htmlFor="element-required">Required field</Label>
-              </div>
+              {selectedElementData.element.type !== "textfield" && (
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="element-required"
+                    checked={selectedElementData.element.required}
+                    onCheckedChange={(checked) =>
+                      updateElement(
+                        selectedElement!,
+                        selectedElementData.groupId,
+                        selectedElementData.sectionId,
+                        {
+                          required: checked,
+                        }
+                      )
+                    }
+                  />
+                  <Label htmlFor="element-required">Required field</Label>
+                </div>
+              )}
 
               {/* Display Layout Configuration for Checkbox and Radio */}
               {(selectedElementData.element.type === "checkbox" ||

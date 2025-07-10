@@ -48,14 +48,17 @@ export function FormPreview({ form, onBackToEditor }: FormPreviewProps) {
                         >
                           {group.elements.map((element) => (
                             <div key={element.id} className="space-y-2">
-                              {element.type !== "checkbox" && (
-                                <Label htmlFor={element.id}>
-                                  {element.label}
-                                  {element.required && (
-                                    <span className="text-red-500 ml-1">*</span>
-                                  )}
-                                </Label>
-                              )}
+                              {element.type !== "checkbox" &&
+                                element.type !== "textfield" && (
+                                  <Label htmlFor={element.id}>
+                                    {element.label}
+                                    {element.required && (
+                                      <span className="text-red-500 ml-1">
+                                        *
+                                      </span>
+                                    )}
+                                  </Label>
+                                )}
                               <FormRenderer
                                 element={element}
                                 isPreview={true}
