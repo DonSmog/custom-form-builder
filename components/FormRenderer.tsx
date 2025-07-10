@@ -14,6 +14,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import type { FormElement } from "../types/form";
+import { DatePicker } from "./ui/date-picker-with-input";
 
 interface FormRendererProps {
   element: FormElement;
@@ -37,8 +38,9 @@ export function FormRenderer({
       case "email":
       case "tel":
       case "number":
-      case "date":
         return <Input type={element.type} {...commonProps} />;
+      case "date":
+        return <DatePicker />;
       case "textarea":
         return <Textarea {...commonProps} />;
       case "textfield":

@@ -4,6 +4,7 @@ import { useDrag } from "react-dnd";
 import { Button } from "@/components/ui/button";
 import { GripVertical } from "lucide-react";
 import { ItemTypes } from "../constants/formElements";
+import { useRef } from "react";
 
 interface DraggableElementTypeProps {
   elementType: any;
@@ -24,9 +25,12 @@ export function DraggableElementType({
     }),
   });
 
+  const ref = useRef<HTMLButtonElement>(null);
+  drag(ref);
+
   return (
     <Button
-      ref={drag}
+      ref={ref}
       variant="outline"
       className={`justify-start h-auto p-3 bg-transparent cursor-grab active:cursor-grabbing ${
         isDragging ? "opacity-50" : ""
