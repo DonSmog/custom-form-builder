@@ -1,4 +1,16 @@
-import { Type, AlignLeft, List, CheckSquare, Circle, Hash, Mail, Calendar, Phone, Upload, FileText } from "lucide-react"
+import {
+  Type,
+  AlignLeft,
+  List,
+  CheckSquare,
+  Circle,
+  Hash,
+  Mail,
+  Calendar,
+  Phone,
+  Upload,
+  FileText,
+} from "lucide-react";
 
 export const elementTypes = [
   { type: "text", label: "Text Input", icon: Type },
@@ -12,26 +24,27 @@ export const elementTypes = [
   { type: "date", label: "Date", icon: Calendar },
   { type: "tel", label: "Phone", icon: Phone },
   { type: "file", label: "File Upload", icon: Upload },
-]
+];
 
 export const layoutOptions = [
   { value: "single", label: "Single Column" },
   { value: "two-column", label: "Two Columns" },
   { value: "three-column", label: "Three Columns" },
-]
+  { value: "four-column", label: "Four Columns" },
+];
 
 export const alignmentOptions = [
   { value: "left", label: "Left" },
   { value: "center", label: "Center" },
   { value: "right", label: "Right" },
-]
+];
 
 export const alignItemsOptions = [
   { value: "start", label: "Start" },
   { value: "center", label: "Center" },
   { value: "end", label: "End" },
   { value: "stretch", label: "Stretch" },
-]
+];
 
 export const justifyContentOptions = [
   { value: "start", label: "Start" },
@@ -40,7 +53,7 @@ export const justifyContentOptions = [
   { value: "between", label: "Space Between" },
   { value: "around", label: "Space Around" },
   { value: "evenly", label: "Space Evenly" },
-]
+];
 
 export const fileAcceptOptions = [
   { value: "all", label: "All Files" },
@@ -52,7 +65,7 @@ export const fileAcceptOptions = [
   { value: ".txt", label: "Text Files" },
   { value: "audio/*", label: "Audio Files" },
   { value: "video/*", label: "Video Files" },
-]
+];
 
 export const fontSizeOptions = [
   { value: "xs", label: "Extra Small (12px)" },
@@ -63,7 +76,7 @@ export const fontSizeOptions = [
   { value: "2xl", label: "2X Large (24px)" },
   { value: "3xl", label: "3X Large (30px)" },
   { value: "4xl", label: "4X Large (36px)" },
-]
+];
 
 export const fontWeightOptions = [
   { value: "normal", label: "Normal (400)" },
@@ -71,16 +84,16 @@ export const fontWeightOptions = [
   { value: "semibold", label: "Semibold (600)" },
   { value: "bold", label: "Bold (700)" },
   { value: "extrabold", label: "Extra Bold (800)" },
-]
+];
 
 export const displayLayoutOptions = [
   { value: "vertical", label: "Vertical" },
   { value: "horizontal", label: "Horizontal" },
-]
+];
 
 export const ItemTypes = {
   ELEMENT_TYPE: "element-type",
   ELEMENT: "element",
   GROUP: "group",
   SECTION: "section",
-}
+};

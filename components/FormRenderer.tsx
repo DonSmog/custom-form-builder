@@ -11,10 +11,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DatePicker } from "@/components/ui/date-picker-with-input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import type { FormElement } from "../types/form";
-import { DatePicker } from "./ui/date-picker-with-input";
 
 interface FormRendererProps {
   element: FormElement;

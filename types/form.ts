@@ -35,7 +35,7 @@ export interface FormGroup {
   id: string
   title: string
   description?: string
-  layout: "single" | "two-column" | "three-column"
+  layout: "single" | "two-column" | "three-column"|"four-column"
   alignment?: "left" | "center" | "right"
   alignItems?: "start" | "center" | "end" | "stretch"
   justifyContent?: "start" | "center" | "end" | "between" | "around" | "evenly"

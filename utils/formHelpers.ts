@@ -34,6 +34,8 @@ export const getLayoutClasses = (layout: FormGroup["layout"]) => {
       return "grid grid-cols-1 sm:grid-cols-2 gap-4";
     case "three-column":
       return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4";
+    case "four-column":
+      return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4";
     default:
       return "space-y-4";
   }
@@ -88,6 +90,14 @@ export const getLayoutStyles = (
       return {
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+        gap: "1rem",
+        alignItems: group.alignItems || "start",
+        justifyContent: group.justifyContent || "start",
+      };
+    case "four-column":
+      return {
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
         gap: "1rem",
         alignItems: group.alignItems || "start",
         justifyContent: group.justifyContent || "start",
