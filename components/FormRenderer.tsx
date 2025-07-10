@@ -145,10 +145,10 @@ export function FormRenderer({ element }: FormRendererProps) {
                   : element.fileConfig?.accept || ""
               }
               multiple={element.fileConfig?.multiple || false}
-              className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              className="file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:cursor-pointer file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
             />
             {element.fileConfig && (
-              <div className="text-xs text-gray-500">
+              <div className="flex items-center gap-2 text-xs text-gray-500">
                 {element.fileConfig.accept &&
                   element.fileConfig.accept !== "all" && (
                     <p>Accepted: {element.fileConfig.accept}</p>
