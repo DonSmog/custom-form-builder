@@ -47,10 +47,12 @@ export function DraggableElement({
 
   const [, drop] = useDrop({
     accept: ItemTypes.ELEMENT,
-    hover: (
-      item: { id: string; index: number; groupId: string; sectionId: string },
-      monitor: DropTargetMonitor
-    ) => {
+    hover: (item: {
+      id: string;
+      index: number;
+      groupId: string;
+      sectionId: string;
+    }) => {
       if (item.groupId === groupId && item.index !== index) {
         moveElement(item.index, index, item.groupId, groupId);
         item.index = index;

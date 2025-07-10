@@ -41,7 +41,6 @@ function FormBuilderContent() {
     form,
     setForm,
     updateForm,
-    loadForm,
     createNewForm,
     selectedElement,
     setSelectedElement,
@@ -161,7 +160,7 @@ function FormBuilderContent() {
 
         {/* Main Canvas */}
         <div className="flex-1 p-6 overflow-y-auto">
-          <div className="max-w-7xl mx-auto">
+          <div className="mx-auto">
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex-1 mr-4">

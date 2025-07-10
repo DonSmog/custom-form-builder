@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Download, Trash2, FileText, ArrowLeft } from "lucide-react";
@@ -11,7 +11,6 @@ import toast from "react-hot-toast";
 
 export default function SavedFormsPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { savedForms, deleteForm, exportForm } = useFormStorage();
 
   // Handle loading a form
@@ -67,7 +66,7 @@ export default function SavedFormsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-[80vw] mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <Button
