@@ -1,15 +1,15 @@
-"use client"
-import { useCallback } from "react"
-import type { Form, FormElement } from "../types/form"
-import { elementTypes } from "../constants/formElements"
+"use client";
+import { useCallback } from "react";
+import type { Form, FormElement } from "../types/form";
+import { elementTypes } from "../constants/formElements";
 
 export function useFormElements(
   form: Form,
-  setForm: (form: Form) => void, // Changed from React.Dispatch<React.SetStateAction<Form>>
+  setForm: (form: Form) => void,
   selectedElement: string | null,
   setSelectedElement: (id: string | null) => void,
   setSelectedGroup: (id: string | null) => void,
-  setSelectedSection: (id: string | null) => void,
+  setSelectedSection: (id: string | null) => void
 ) {
   const addElement = useCallback(
     (type: FormElement["type"], groupId: string, sectionId: string) => {
@@ -21,12 +21,25 @@ export function useFormElements(
           type === "textarea"
             ? "Enter your message..."
             : type === "file"
-              ? ""
-              : type === "textfield"
-                ? ""
-                : "Enter value...",
+            ? ""
+            : type === "textfield"
+            ? ""
+            : "Enter value...",
         required: false,
-        options: ["select", "radio", "checkbox"].includes(type) ? ["Option 1", "Option 2"] : undefined,
+        options: ["select", "radio", "checkbox"].includes(type)
+          ? ["Option 1", "Option 2"]
+          : undefined,
+        tableConfig:
+          type === "table"
+            ? {
+                rows: 2,
+                columns: 2,
+                headings: ["Table Heading 1", "Table Heading 2"],
+                fontSize: "base",
+                fontWeight: "normal",
+                content: "Your text content here",
+              }
+            : undefined,
         fileConfig:
           type === "file"
             ? {
@@ -48,7 +61,7 @@ export function useFormElements(
               layout: "vertical",
             }
           : undefined,
-      }
+      };
 
       const newForm = {
         ...form,
@@ -57,19 +70,21 @@ export function useFormElements(
             ? {
                 ...section,
                 groups: section.groups.map((group) =>
-                  group.id === groupId ? { ...group, elements: [...group.elements, newElement] } : group,
+                  group.id === groupId
+                    ? { ...group, elements: [...group.elements, newElement] }
+                    : group
                 ),
               }
-            : section,
+            : section
         ),
-      }
-      setForm(newForm)
-      setSelectedElement(newElement.id)
-      setSelectedGroup(null)
-      setSelectedSection(null)
+      };
+      setForm(newForm);
+      setSelectedElement(newElement.id);
+      setSelectedGroup(null);
+      setSelectedSection(null);
     },
-    [form, setForm, setSelectedElement, setSelectedGroup, setSelectedSection],
-  )
+    [form, setForm, setSelectedElement, setSelectedGroup, setSelectedSection]
+  );
 
   const removeElement = useCallback(
     (elementId: string, groupId: string, sectionId: string) => {
@@ -81,23 +96,33 @@ export function useFormElements(
                 ...section,
                 groups: section.groups.map((group) =>
                   group.id === groupId
-                    ? { ...group, elements: group.elements.filter((el) => el.id !== elementId) }
-                    : group,
+                    ? {
+                        ...group,
+                        elements: group.elements.filter(
+                          (el) => el.id !== elementId
+                        ),
+                      }
+                    : group
                 ),
               }
-            : section,
+            : section
         ),
-      }
-      setForm(newForm)
+      };
+      setForm(newForm);
       if (selectedElement === elementId) {
-        setSelectedElement(null)
+        setSelectedElement(null);
       }
     },
-    [form, selectedElement, setForm, setSelectedElement],
-  )
+    [form, selectedElement, setForm, setSelectedElement]
+  );
 
   const updateElement = useCallback(
-    (elementId: string, groupId: string, sectionId: string, updates: Partial<FormElement>) => {
+    (
+      elementId: string,
+      groupId: string,
+      sectionId: string,
+      updates: Partial<FormElement>
+    ) => {
       const newForm = {
         ...form,
         sections: form.sections.map((section) =>
@@ -108,21 +133,28 @@ export function useFormElements(
                   group.id === groupId
                     ? {
                         ...group,
-                        elements: group.elements.map((el) => (el.id === elementId ? { ...el, ...updates } : el)),
+                        elements: group.elements.map((el) =>
+                          el.id === elementId ? { ...el, ...updates } : el
+                        ),
                       }
-                    : group,
+                    : group
                 ),
               }
-            : section,
+            : section
         ),
-      }
-      setForm(newForm)
+      };
+      setForm(newForm);
     },
-    [form, setForm],
-  )
+    [form, setForm]
+  );
 
   const moveElement = useCallback(
-    (dragIndex: number, hoverIndex: number, sourceGroupId: string, targetGroupId: string) => {
+    (
+      dragIndex: number,
+      hoverIndex: number,
+      sourceGroupId: string,
+      targetGroupId: string
+    ) => {
       if (sourceGroupId === targetGroupId) {
         const newForm = {
           ...form,
@@ -130,48 +162,50 @@ export function useFormElements(
             ...section,
             groups: section.groups.map((group) => {
               if (group.id === sourceGroupId) {
-                const newElements = [...group.elements]
-                const [draggedElement] = newElements.splice(dragIndex, 1)
-                newElements.splice(hoverIndex, 0, draggedElement)
-                return { ...group, elements: newElements }
+                const newElements = [...group.elements];
+                const [draggedElement] = newElements.splice(dragIndex, 1);
+                newElements.splice(hoverIndex, 0, draggedElement);
+                return { ...group, elements: newElements };
               }
-              return group
+              return group;
             }),
           })),
-        }
-        setForm(newForm)
+        };
+        setForm(newForm);
       } else {
-        let draggedElement: FormElement | null = null
+        let draggedElement: FormElement | null = null;
 
         const updatedSections = form.sections.map((section) => ({
           ...section,
           groups: section.groups.map((group) => {
             if (group.id === sourceGroupId) {
-              draggedElement = group.elements[dragIndex]
+              draggedElement = group.elements[dragIndex];
               return {
                 ...group,
-                elements: group.elements.filter((_, index) => index !== dragIndex),
-              }
+                elements: group.elements.filter(
+                  (_, index) => index !== dragIndex
+                ),
+              };
             } else if (group.id === targetGroupId && draggedElement) {
-              const newElements = [...group.elements]
-              newElements.splice(hoverIndex, 0, draggedElement)
-              return { ...group, elements: newElements }
+              const newElements = [...group.elements];
+              newElements.splice(hoverIndex, 0, draggedElement);
+              return { ...group, elements: newElements };
             }
-            return group
+            return group;
           }),
-        }))
+        }));
 
-        const newForm = { ...form, sections: updatedSections }
-        setForm(newForm)
+        const newForm = { ...form, sections: updatedSections };
+        setForm(newForm);
       }
     },
-    [form, setForm],
-  )
+    [form, setForm]
+  );
 
   return {
     addElement,
     removeElement,
     updateElement,
     moveElement,
-  }
+  };
 }

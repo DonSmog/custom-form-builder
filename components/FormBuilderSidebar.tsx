@@ -538,7 +538,8 @@ export function FormBuilderSidebar({
 
               {selectedElementData.element.type !== "checkbox" &&
                 selectedElementData.element.type !== "textfield" &&
-                selectedElementData.element.type !== "file" && (
+                selectedElementData.element.type !== "file" &&
+                selectedElementData.element.type !== "table" && (
                   <div>
                     <Label htmlFor="element-placeholder">Placeholder</Label>
                     <Input
@@ -558,25 +559,26 @@ export function FormBuilderSidebar({
                   </div>
                 )}
 
-              {selectedElementData.element.type !== "textfield" && (
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="element-required"
-                    checked={selectedElementData.element.required}
-                    onCheckedChange={(checked) =>
-                      updateElement(
-                        selectedElement!,
-                        selectedElementData.groupId,
-                        selectedElementData.sectionId,
-                        {
-                          required: checked,
-                        }
-                      )
-                    }
-                  />
-                  <Label htmlFor="element-required">Required field</Label>
-                </div>
-              )}
+              {selectedElementData.element.type !== "textfield" &&
+                selectedElementData.element.type !== "table" && (
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="element-required"
+                      checked={selectedElementData.element.required}
+                      onCheckedChange={(checked) =>
+                        updateElement(
+                          selectedElement!,
+                          selectedElementData.groupId,
+                          selectedElementData.sectionId,
+                          {
+                            required: checked,
+                          }
+                        )
+                      }
+                    />
+                    <Label htmlFor="element-required">Required field</Label>
+                  </div>
+                )}
 
               {/* Display Layout Configuration for Checkbox and Radio */}
               {(selectedElementData.element.type === "checkbox" ||
@@ -888,6 +890,116 @@ export function FormBuilderSidebar({
                       for multiple checkboxes
                     </p>
                   )}
+                </div>
+              )}
+
+              {/* Options Configuration for Table */}
+              {selectedElementData.element.type === "table" && (
+                <div className="space-y-4">
+                  <div>
+                    <Label>Number of Rows</Label>
+                    <Input
+                      type="number"
+                      min={1}
+                      value={selectedElementData.element.tableConfig?.rows || 2}
+                      onChange={(e) => {
+                        updateElement(
+                          selectedElement!,
+                          selectedElementData.groupId,
+                          selectedElementData.sectionId,
+                          {
+                            tableConfig: {
+                              ...selectedElementData.element.tableConfig,
+                              rows: Math.max(1, Number(e.target.value) || 1),
+                              columns:
+                                selectedElementData.element.tableConfig
+                                  ?.columns ?? 2,
+                            },
+                          }
+                        );
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <Label>Number of Columns</Label>
+                    <Input
+                      type="number"
+                      min={1}
+                      value={
+                        selectedElementData.element.tableConfig?.columns || 2
+                      }
+                      onChange={(e) => {
+                        const newColCount = Math.max(
+                          1,
+                          Number(e.target.value) || 1
+                        );
+                        let newHeadings =
+                          selectedElementData.element.tableConfig?.headings ||
+                          [];
+                        if (newColCount > newHeadings.length) {
+                          newHeadings = [
+                            ...newHeadings,
+                            ...Array(newColCount - newHeadings.length).fill(""),
+                          ];
+                        } else if (newColCount < newHeadings.length) {
+                          newHeadings = newHeadings.slice(0, newColCount);
+                        }
+                        updateElement(
+                          selectedElement!,
+                          selectedElementData.groupId,
+                          selectedElementData.sectionId,
+                          {
+                            tableConfig: {
+                              ...selectedElementData.element.tableConfig,
+                              columns: newColCount,
+                              headings: newHeadings,
+                              rows:
+                                selectedElementData.element.tableConfig?.rows ??
+                                2,
+                            },
+                          }
+                        );
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <Label>Column Headings</Label>
+                    <div className="space-y-2">
+                      {(
+                        selectedElementData.element.tableConfig?.headings || []
+                      ).map((heading, idx) => (
+                        <Input
+                          key={idx}
+                          value={heading}
+                          placeholder={`Table Heading ${idx + 1}`}
+                          onChange={(e) => {
+                            const newHeadings = [
+                              ...(selectedElementData.element.tableConfig
+                                ?.headings || []),
+                            ];
+                            newHeadings[idx] = e.target.value;
+                            updateElement(
+                              selectedElement!,
+                              selectedElementData.groupId,
+                              selectedElementData.sectionId,
+                              {
+                                tableConfig: {
+                                  ...selectedElementData.element.tableConfig,
+                                  headings: newHeadings,
+                                  rows:
+                                    selectedElementData.element.tableConfig
+                                      ?.rows ?? 2,
+                                  columns:
+                                    selectedElementData.element.tableConfig
+                                      ?.columns ?? 2,
+                                },
+                              }
+                            );
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

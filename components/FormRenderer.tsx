@@ -11,10 +11,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@/components/ui/table";
 import { DatePicker } from "@/components/ui/date-picker-with-input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import type { FormElement } from "../types/form";
+import { TextField } from "./text-field";
 
 interface FormRendererProps {
   element: FormElement;
@@ -49,43 +58,11 @@ export function FormRenderer({
         const content = element.textConfig?.content || element.label;
 
         return (
-          <div
-            className={`text-${fontSize} font-${fontWeight} text-gray-900`}
-            style={{
-              fontSize:
-                fontSize === "xs"
-                  ? "12px"
-                  : fontSize === "sm"
-                  ? "14px"
-                  : fontSize === "base"
-                  ? "16px"
-                  : fontSize === "lg"
-                  ? "18px"
-                  : fontSize === "xl"
-                  ? "20px"
-                  : fontSize === "2xl"
-                  ? "24px"
-                  : fontSize === "3xl"
-                  ? "30px"
-                  : fontSize === "4xl"
-                  ? "36px"
-                  : "16px",
-              fontWeight:
-                fontWeight === "normal"
-                  ? "400"
-                  : fontWeight === "medium"
-                  ? "500"
-                  : fontWeight === "semibold"
-                  ? "600"
-                  : fontWeight === "bold"
-                  ? "700"
-                  : fontWeight === "extrabold"
-                  ? "800"
-                  : "400",
-            }}
-          >
-            {content}
-          </div>
+          <TextField
+            fontSize={fontSize}
+            content={content}
+            fontWeight={fontWeight}
+          />
         );
       case "select":
         return (
@@ -186,6 +163,49 @@ export function FormRenderer({
               </div>
             )}
           </div>
+        );
+
+      case "table":
+        const {
+          rows = 2,
+          columns = 2,
+          headings = [],
+        } = element.tableConfig || {};
+        return (
+          <Table className="border">
+            <TableHeader>
+              <TableRow>
+                {Array.from({ length: columns }).map((_, colIdx) => (
+                  <TableHead key={colIdx}>
+                    {headings[colIdx] || `Table Heading ${colIdx + 1}`}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {Array.from({ length: rows }).map((_, rowIdx) => (
+                <TableRow key={rowIdx}>
+                  {Array.from({ length: columns }).map((_, colIdx) => {
+                    const fontSize = element.textConfig?.fontSize || "base";
+                    const fontWeight =
+                      element.textConfig?.fontWeight || "normal";
+                    const content =
+                      element.textConfig?.content || element.label;
+
+                    return (
+                      <TableCell key={colIdx}>
+                        <TextField
+                          fontSize={fontSize}
+                          content={content}
+                          fontWeight={fontWeight}
+                        />
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         );
 
       default:

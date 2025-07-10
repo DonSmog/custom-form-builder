@@ -10,6 +10,7 @@ import {
   Phone,
   Upload,
   FileText,
+  Table,
 } from "lucide-react";
 
 export const elementTypes = [
@@ -24,6 +25,7 @@ export const elementTypes = [
   { type: "date", label: "Date", icon: Calendar },
   { type: "tel", label: "Phone", icon: Phone },
   { type: "file", label: "File Upload", icon: Upload },
+  { type: "table", label: "Table", icon: Table },
 ];
 
 export const layoutOptions = [
