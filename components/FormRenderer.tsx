@@ -30,10 +30,7 @@ interface FormRendererProps {
   isPreview?: boolean;
 }
 
-export function FormRenderer({
-  element,
-  isPreview = false,
-}: FormRendererProps) {
+export function FormRenderer({ element }: FormRendererProps) {
   const renderFormElement = useCallback(() => {
     const commonProps = {
       id: element.id,

@@ -64,7 +64,6 @@ export interface FormSection {
 export interface Form {
   id: string;
   title: string;
-  description?: string;
   sections: FormSection[];
   createdAt: string;
   updatedAt: string;

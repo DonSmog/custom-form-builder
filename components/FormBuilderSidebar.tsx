@@ -267,15 +267,6 @@ export function FormBuilderSidebar({
                 onChange={(e) => updateForm({ title: e.target.value })}
               />
             </div>
-            <div>
-              <Label htmlFor="form-description">Description (Optional)</Label>
-              <Textarea
-                id="form-description"
-                value={form.description || ""}
-                onChange={(e) => updateForm({ description: e.target.value })}
-                placeholder="Add a description for this form..."
-              />
-            </div>
           </div>
         </div>
 

@@ -30,6 +30,7 @@ import {
   getSelectedSection,
   getLayoutClasses,
 } from "../utils/formHelpers";
+import toast from "react-hot-toast";
 
 function FormBuilderContent() {
   const [previewMode, setPreviewMode] = useState(false);
@@ -121,6 +122,7 @@ function FormBuilderContent() {
   const handleSaveForm = () => {
     const updatedForm = saveForm(form);
     setForm(updatedForm);
+    toast.success("Form Saved");
   };
 
   if (previewMode) {
@@ -169,11 +171,6 @@ function FormBuilderContent() {
                   className="text-xl font-semibold border-none shadow-none p-0 h-auto"
                   placeholder="Form Title"
                 />
-                {form.description && (
-                  <p className="text-sm text-gray-600 mt-1">
-                    {form.description}
-                  </p>
-                )}
               </div>
               <div className="flex items-center space-x-2">
                 <Button

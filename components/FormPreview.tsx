@@ -18,7 +18,7 @@ export function FormPreview({ form, onBackToEditor }: FormPreviewProps) {
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">Form Preview</h1>
+          <h1 className="text-2xl font-bold">{form.title} Preview</h1>
           <Button onClick={onBackToEditor} variant="outline">
             <Settings className="w-4 h-4 mr-2" />
             Edit Form
@@ -26,17 +26,20 @@ export function FormPreview({ form, onBackToEditor }: FormPreviewProps) {
         </div>
 
         <Card>
-          <CardHeader>
-            <CardTitle>{form.title}</CardTitle>
-            {form.description && (
-              <p className="text-sm text-gray-600 mt-1">{form.description}</p>
-            )}
-          </CardHeader>
           <CardContent className="space-y-8">
             <div className="space-y-6">
               {form.sections.map((section) => {
                 return (
                   <div key={section.id} className="space-y-6">
+                    <CardHeader className="px-0 py-4">
+                      <CardTitle>{section.title}</CardTitle>
+                      {section.description && (
+                        <p className="text-sm text-gray-600 mt-1">
+                          {section.description}
+                        </p>
+                      )}
+                    </CardHeader>
+
                     {section.groups.map((group) => {
                       const layoutStyle = getLayoutStyles(group, group.layout);
 
@@ -72,7 +75,9 @@ export function FormPreview({ form, onBackToEditor }: FormPreviewProps) {
                 );
               })}
             </div>
-            <Button className="w-full">Submit Form</Button>
+            <div className="flex justify-center items-center">
+              <Button className="w-fit">Submit Form</Button>
+            </div>
           </CardContent>
         </Card>
       </div>
