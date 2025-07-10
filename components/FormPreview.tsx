@@ -16,7 +16,7 @@ interface FormPreviewProps {
 export function FormPreview({ form, onBackToEditor }: FormPreviewProps) {
   return (
     <div className="min-h-screen bg-gray-50 p-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Form Preview</h1>
           <Button onClick={onBackToEditor} variant="outline">

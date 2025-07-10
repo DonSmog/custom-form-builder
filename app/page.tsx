@@ -1,34 +1,39 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { DndProvider } from "react-dnd"
-import { HTML5Backend } from "react-dnd-html5-backend"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { FolderPlus, Eye, Code, Undo, Redo } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { FolderPlus, Eye, Code, Undo, Redo } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Hooks
-import { useFormBuilder } from "../hooks/useFormBuilder"
-import { useFormSections } from "../hooks/useFormSections"
-import { useFormGroups } from "../hooks/useFormGroups"
-import { useFormElements } from "../hooks/useFormElements"
-import { useFormStorage } from "../hooks/useFormStorage"
+import { useFormBuilder } from "../hooks/useFormBuilder";
+import { useFormSections } from "../hooks/useFormSections";
+import { useFormGroups } from "../hooks/useFormGroups";
+import { useFormElements } from "../hooks/useFormElements";
+import { useFormStorage } from "../hooks/useFormStorage";
 
 // Components
-import { FormBuilderSidebar } from "../components/FormBuilderSidebar"
-import { FormPreview } from "../components/FormPreview"
-import { DroppableSection } from "../components/DroppableSection"
-import { DroppableGroup } from "../components/DroppableGroup"
-import { DraggableElement } from "../components/DraggableElement"
+import { FormBuilderSidebar } from "../components/FormBuilderSidebar";
+import { FormPreview } from "../components/FormPreview";
+import { DroppableSection } from "../components/DroppableSection";
+import { DroppableGroup } from "../components/DroppableGroup";
+import { DraggableElement } from "../components/DraggableElement";
 
 // Utils
-import { getSelectedElement, getSelectedGroup, getSelectedSection, getLayoutClasses } from "../utils/formHelpers"
+import {
+  getSelectedElement,
+  getSelectedGroup,
+  getSelectedSection,
+  getLayoutClasses,
+} from "../utils/formHelpers";
 
 function FormBuilderContent() {
-  const [previewMode, setPreviewMode] = useState(false)
-  const router = useRouter()
+  const [previewMode, setPreviewMode] = useState(false);
+  const router = useRouter();
 
   // Form builder state
   const {
@@ -47,20 +52,21 @@ function FormBuilderContent() {
     canRedo,
     undo,
     redo,
-  } = useFormBuilder()
+  } = useFormBuilder();
 
   // Form storage
-  const { saveForm, exportForm } = useFormStorage()
+  const { saveForm, exportForm } = useFormStorage();
 
   // Section management
-  const { addSection, removeSection, updateSection, moveSection } = useFormSections(
-    form,
-    setForm,
-    selectedSection,
-    setSelectedSection,
-    setSelectedGroup,
-    setSelectedElement,
-  )
+  const { addSection, removeSection, updateSection, moveSection } =
+    useFormSections(
+      form,
+      setForm,
+      selectedSection,
+      setSelectedSection,
+      setSelectedGroup,
+      setSelectedElement
+    );
 
   // Group management
   const { addGroup, removeGroup, updateGroup, moveGroup } = useFormGroups(
@@ -69,48 +75,58 @@ function FormBuilderContent() {
     selectedGroup,
     setSelectedGroup,
     setSelectedSection,
-    setSelectedElement,
-  )
+    setSelectedElement
+  );
 
   // Element management
-  const { addElement, removeElement, updateElement, moveElement } = useFormElements(
-    form,
-    setForm,
-    selectedElement,
-    setSelectedElement,
-    setSelectedGroup,
-    setSelectedSection,
-  )
+  const { addElement, removeElement, updateElement, moveElement } =
+    useFormElements(
+      form,
+      setForm,
+      selectedElement,
+      setSelectedElement,
+      setSelectedGroup,
+      setSelectedSection
+    );
 
   // Keyboard shortcuts for undo/redo
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.key === "z" && !event.shiftKey) {
-        event.preventDefault()
-        undo()
-      } else if ((event.ctrlKey || event.metaKey) && (event.key === "y" || (event.key === "z" && event.shiftKey))) {
-        event.preventDefault()
-        redo()
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        event.key === "z" &&
+        !event.shiftKey
+      ) {
+        event.preventDefault();
+        undo();
+      } else if (
+        (event.ctrlKey || event.metaKey) &&
+        (event.key === "y" || (event.key === "z" && event.shiftKey))
+      ) {
+        event.preventDefault();
+        redo();
       }
-    }
+    };
 
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [undo, redo])
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [undo, redo]);
 
   // Get selected data
-  const selectedElementData = getSelectedElement(form, selectedElement)
-  const selectedGroupData = getSelectedGroup(form, selectedGroup)
-  const selectedSectionData = getSelectedSection(form, selectedSection)
+  const selectedElementData = getSelectedElement(form, selectedElement);
+  const selectedGroupData = getSelectedGroup(form, selectedGroup);
+  const selectedSectionData = getSelectedSection(form, selectedSection);
 
   // Handle form save
   const handleSaveForm = () => {
-    const updatedForm = saveForm(form)
-    setForm(updatedForm)
-  }
+    const updatedForm = saveForm(form);
+    setForm(updatedForm);
+  };
 
   if (previewMode) {
-    return <FormPreview form={form} onBackToEditor={() => setPreviewMode(false)} />
+    return (
+      <FormPreview form={form} onBackToEditor={() => setPreviewMode(false)} />
+    );
   }
 
   return (
@@ -143,7 +159,7 @@ function FormBuilderContent() {
 
         {/* Main Canvas */}
         <div className="flex-1 p-6 overflow-y-auto">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-7xl mx-auto">
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex-1 mr-4">
@@ -153,13 +169,29 @@ function FormBuilderContent() {
                   className="text-xl font-semibold border-none shadow-none p-0 h-auto"
                   placeholder="Form Title"
                 />
-                {form.description && <p className="text-sm text-gray-600 mt-1">{form.description}</p>}
+                {form.description && (
+                  <p className="text-sm text-gray-600 mt-1">
+                    {form.description}
+                  </p>
+                )}
               </div>
               <div className="flex items-center space-x-2">
-                <Button onClick={undo} variant="outline" size="sm" disabled={!canUndo} title="Undo (Ctrl+Z)">
+                <Button
+                  onClick={undo}
+                  variant="outline"
+                  size="sm"
+                  disabled={!canUndo}
+                  title="Undo (Ctrl+Z)"
+                >
                   <Undo className="w-4 h-4" />
                 </Button>
-                <Button onClick={redo} variant="outline" size="sm" disabled={!canRedo} title="Redo (Ctrl+Y)">
+                <Button
+                  onClick={redo}
+                  variant="outline"
+                  size="sm"
+                  disabled={!canRedo}
+                  title="Redo (Ctrl+Y)"
+                >
                   <Redo className="w-4 h-4" />
                 </Button>
                 <Button onClick={() => setPreviewMode(true)} variant="outline">
@@ -182,9 +214,9 @@ function FormBuilderContent() {
                   index={sectionIndex}
                   isSelected={selectedSection === section.id}
                   onSelect={() => {
-                    setSelectedSection(section.id)
-                    setSelectedGroup(null)
-                    setSelectedElement(null)
+                    setSelectedSection(section.id);
+                    setSelectedGroup(null);
+                    setSelectedElement(null);
                   }}
                   onRemove={() => removeSection(section.id)}
                   moveSection={moveSection}
@@ -198,9 +230,9 @@ function FormBuilderContent() {
                       index={groupIndex}
                       isSelected={selectedGroup === group.id}
                       onSelect={() => {
-                        setSelectedGroup(group.id)
-                        setSelectedSection(null)
-                        setSelectedElement(null)
+                        setSelectedGroup(group.id);
+                        setSelectedSection(null);
+                        setSelectedElement(null);
                       }}
                       onRemove={() => removeGroup(group.id, section.id)}
                       moveGroup={moveGroup}
@@ -217,12 +249,14 @@ function FormBuilderContent() {
                           index={elementIndex}
                           moveElement={moveElement}
                           onSelect={() => {
-                            setSelectedElement(element.id)
-                            setSelectedGroup(null)
-                            setSelectedSection(null)
+                            setSelectedElement(element.id);
+                            setSelectedGroup(null);
+                            setSelectedSection(null);
                           }}
                           isSelected={selectedElement === element.id}
-                          onRemove={() => removeElement(element.id, group.id, section.id)}
+                          onRemove={() =>
+                            removeElement(element.id, group.id, section.id)
+                          }
                         />
                       ))}
                     </DroppableGroup>
@@ -247,7 +281,7 @@ function FormBuilderContent() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default function FormBuilder() {
@@ -255,5 +289,5 @@ export default function FormBuilder() {
     <DndProvider backend={HTML5Backend}>
       <FormBuilderContent />
     </DndProvider>
-  )
+  );
 }

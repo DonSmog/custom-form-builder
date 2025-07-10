@@ -79,25 +79,11 @@ export const getLayoutStyles = (
 ) => {
   switch (layout) {
     case "two-column":
-      return {
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-        gap: "1rem",
-        alignItems: group.alignItems || "start",
-        justifyContent: group.justifyContent || "start",
-      };
     case "three-column":
-      return {
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-        gap: "1rem",
-        alignItems: group.alignItems || "start",
-        justifyContent: group.justifyContent || "start",
-      };
     case "four-column":
       return {
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+        gridTemplateColumns: "repeat(auto-fit)",
         gap: "1rem",
         alignItems: group.alignItems || "start",
         justifyContent: group.justifyContent || "start",
