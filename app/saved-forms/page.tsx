@@ -31,11 +31,13 @@ export default function SavedFormsPage() {
           id: `section-${Date.now()}`,
           title: "Section 1",
           description: "",
+          alignItems: "stretch",
           groups: [
             {
               id: `group-${Date.now()}`,
               title: "Group 1",
               description: "",
+              alignItems: "stretch",
               layout: "single",
               elements: [],
             },

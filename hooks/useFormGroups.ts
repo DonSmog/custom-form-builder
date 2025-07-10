@@ -1,6 +1,6 @@
-"use client"
-import { useCallback } from "react"
-import type { Form, FormGroup } from "../types/form"
+"use client";
+import { useCallback } from "react";
+import type { Form, FormGroup } from "../types/form";
 
 export function useFormGroups(
   form: Form,
@@ -8,51 +8,56 @@ export function useFormGroups(
   selectedGroup: string | null,
   setSelectedGroup: (id: string | null) => void,
   setSelectedSection: (id: string | null) => void,
-  setSelectedElement: (id: string | null) => void,
+  setSelectedElement: (id: string | null) => void
 ) {
   const addGroup = useCallback(
     (sectionId: string) => {
-      const section = form.sections.find((s) => s.id === sectionId)
-      if (!section) return
+      const section = form.sections.find((s) => s.id === sectionId);
+      if (!section) return;
 
       const newGroup: FormGroup = {
         id: `group-${Date.now()}`,
         title: `Group ${section.groups.length + 1}`,
         description: "",
+        alignItems: "stretch",
         layout: "single",
         elements: [],
-      }
-
-      const newForm = {
-        ...form,
-        sections: form.sections.map((s) => (s.id === sectionId ? { ...s, groups: [...s.groups, newGroup] } : s)),
-      }
-      setForm(newForm)
-      setSelectedGroup(newGroup.id)
-      setSelectedSection(null)
-      setSelectedElement(null)
-    },
-    [form, setForm, setSelectedGroup, setSelectedSection, setSelectedElement],
-  )
-
-  const removeGroup = useCallback(
-    (groupId: string, sectionId: string) => {
-      const section = form.sections.find((s) => s.id === sectionId)
-      if (!section || section.groups.length === 1) return
+      };
 
       const newForm = {
         ...form,
         sections: form.sections.map((s) =>
-          s.id === sectionId ? { ...s, groups: s.groups.filter((g) => g.id !== groupId) } : s,
+          s.id === sectionId ? { ...s, groups: [...s.groups, newGroup] } : s
         ),
-      }
-      setForm(newForm)
+      };
+      setForm(newForm);
+      setSelectedGroup(newGroup.id);
+      setSelectedSection(null);
+      setSelectedElement(null);
+    },
+    [form, setForm, setSelectedGroup, setSelectedSection, setSelectedElement]
+  );
+
+  const removeGroup = useCallback(
+    (groupId: string, sectionId: string) => {
+      const section = form.sections.find((s) => s.id === sectionId);
+      if (!section || section.groups.length === 1) return;
+
+      const newForm = {
+        ...form,
+        sections: form.sections.map((s) =>
+          s.id === sectionId
+            ? { ...s, groups: s.groups.filter((g) => g.id !== groupId) }
+            : s
+        ),
+      };
+      setForm(newForm);
       if (selectedGroup === groupId) {
-        setSelectedGroup(null)
+        setSelectedGroup(null);
       }
     },
-    [form, selectedGroup, setForm, setSelectedGroup],
-  )
+    [form, selectedGroup, setForm, setSelectedGroup]
+  );
 
   const updateGroup = useCallback(
     (groupId: string, sectionId: string, updates: Partial<FormGroup>) => {
@@ -62,37 +67,46 @@ export function useFormGroups(
           section.id === sectionId
             ? {
                 ...section,
-                groups: section.groups.map((group) => (group.id === groupId ? { ...group, ...updates } : group)),
+                groups: section.groups.map((group) =>
+                  group.id === groupId ? { ...group, ...updates } : group
+                ),
               }
-            : section,
+            : section
         ),
-      }
-      setForm(newForm)
+      };
+      setForm(newForm);
     },
-    [form, setForm],
-  )
+    [form, setForm]
+  );
 
   const moveGroup = useCallback(
-    (dragIndex: number, hoverIndex: number, sourceSectionId: string, targetSectionId: string) => {
+    (
+      dragIndex: number,
+      hoverIndex: number,
+      sourceSectionId: string,
+      targetSectionId: string
+    ) => {
       if (sourceSectionId === targetSectionId) {
         const newForm = {
           ...form,
           sections: form.sections.map((section) => {
             if (section.id === sourceSectionId) {
-              const newGroups = [...section.groups]
-              const [draggedGroup] = newGroups.splice(dragIndex, 1)
-              newGroups.splice(hoverIndex, 0, draggedGroup)
-              return { ...section, groups: newGroups }
+              const newGroups = [...section.groups];
+              const [draggedGroup] = newGroups.splice(dragIndex, 1);
+              newGroups.splice(hoverIndex, 0, draggedGroup);
+              return { ...section, groups: newGroups };
             }
-            return section
+            return section;
           }),
-        }
-        setForm(newForm)
+        };
+        setForm(newForm);
       } else {
-        const sourceSection = form.sections.find((s) => s.id === sourceSectionId)
-        const draggedGroup = sourceSection?.groups[dragIndex]
+        const sourceSection = form.sections.find(
+          (s) => s.id === sourceSectionId
+        );
+        const draggedGroup = sourceSection?.groups[dragIndex];
 
-        if (!draggedGroup) return
+        if (!draggedGroup) return;
 
         const newForm = {
           ...form,
@@ -100,26 +114,28 @@ export function useFormGroups(
             if (section.id === sourceSectionId) {
               return {
                 ...section,
-                groups: section.groups.filter((_, index) => index !== dragIndex),
-              }
+                groups: section.groups.filter(
+                  (_, index) => index !== dragIndex
+                ),
+              };
             } else if (section.id === targetSectionId) {
-              const newGroups = [...section.groups]
-              newGroups.splice(hoverIndex, 0, draggedGroup)
-              return { ...section, groups: newGroups }
+              const newGroups = [...section.groups];
+              newGroups.splice(hoverIndex, 0, draggedGroup);
+              return { ...section, groups: newGroups };
             }
-            return section
+            return section;
           }),
-        }
-        setForm(newForm)
+        };
+        setForm(newForm);
       }
     },
-    [form, setForm],
-  )
+    [form, setForm]
+  );
 
   return {
     addGroup,
     removeGroup,
     updateGroup,
     moveGroup,
-  }
+  };
 }
